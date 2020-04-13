@@ -1,6 +1,8 @@
+import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
@@ -13,6 +15,10 @@ public class Get200 {
     @Test
     public void baseUrlReturnes200() throws IOException {
         HttpGet get = new HttpGet(BASE_ENDPOINT);
-        client.execute(get);
+        HttpResponse response = client.execute(get);
+
+        int actualStatus = response.getStatusLine().getStatusCode();
+
+        Assert.assertEquals(actualStatus, 200);
     }
 }
