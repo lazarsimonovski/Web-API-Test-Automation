@@ -10,9 +10,10 @@ import org.testng.annotations.Test;
 
 import java.io.IOException;
 
-public class Get200 {
+import static org.testng.Assert.assertEquals;
 
-    public static final String BASE_ENDPOINT = "https://api.github.com";
+public class Get200 extends BaseClass {
+
     CloseableHttpClient client;
     CloseableHttpResponse response;
 
@@ -34,7 +35,7 @@ public class Get200 {
 
         int actualStatus = response.getStatusLine().getStatusCode();
 
-        Assert.assertEquals(actualStatus, 200);
+        assertEquals(actualStatus, 200);
     }
 
     @Test
@@ -44,7 +45,7 @@ public class Get200 {
 
         int actualStatus = response.getStatusLine().getStatusCode();
 
-        Assert.assertEquals(actualStatus, 200);
+        assertEquals(actualStatus, 200);
     }
 
     @Test
@@ -54,6 +55,6 @@ public class Get200 {
 
         int actualStatus = response.getStatusLine().getStatusCode();
 
-        Assert.assertEquals(actualStatus, 200);
+        assertEquals(actualStatus, 200);
     }
 }

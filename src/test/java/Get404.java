@@ -9,8 +9,10 @@ import org.testng.annotations.Test;
 
 import java.io.IOException;
 
-public class Get404 {
-    public static final String BASE_ENDPOINT = "https://api.github.com";
+import static org.testng.Assert.assertEquals;
+
+public class Get404 extends BaseClass {
+
     CloseableHttpClient client;
     CloseableHttpResponse response;
 
@@ -32,6 +34,6 @@ public class Get404 {
 
         int actualStatus = response.getStatusLine().getStatusCode();
 
-        Assert.assertEquals(actualStatus, 404);
+        assertEquals(actualStatus, 404);
     }
 }

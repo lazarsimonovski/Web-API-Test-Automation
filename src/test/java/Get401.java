@@ -5,12 +5,14 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
 
-public class Get401 {
-    public static final String BASE_ENDPOINT = "https://api.github.com";
+import static org.testng.Assert.assertEquals;
+
+public class Get401 extends BaseClass {
     CloseableHttpClient client;
     CloseableHttpResponse response;
 
@@ -25,34 +27,46 @@ public class Get401 {
         response.close();
     }
 
-    @Test
-    public void userReturnes401() throws IOException {
-        HttpGet get = new HttpGet(BASE_ENDPOINT + "/user" );
+
+    @DataProvider
+    private Object[][] endpoints(){
+        return new Object[][]{
+                {"/user"},
+                {"/user/followers"},
+                {"/notifications"}
+        };
+    }
+
+    @Test(dataProvider = "endpoints")
+    public void userReturns401(String endpoints) throws IOException {
+
+        HttpGet get = new HttpGet(BASE_ENDPOINT + endpoints );
+
         response = client.execute(get);
 
         int actualStatus = response.getStatusLine().getStatusCode();
 
-        Assert.assertEquals(actualStatus, 401);
+        assertEquals(actualStatus, 401);
     }
 
     @Test
-    public void userFollowersReturnes401() throws IOException {
+    public void userFollowersReturns401() throws IOException {
         HttpGet get = new HttpGet(BASE_ENDPOINT + "/user/followers" );
         response = client.execute(get);
 
         int actualStatus = response.getStatusLine().getStatusCode();
 
-        Assert.assertEquals(actualStatus, 401);
+        assertEquals(actualStatus, 401);
     }
 
     @Test
-    public void notificationsReturnes401() throws IOException {
+    public void notificationsReturns401() throws IOException {
         HttpGet get = new HttpGet(BASE_ENDPOINT + "/notifications" );
         response = client.execute(get);
 
         int actualStatus = response.getStatusLine().getStatusCode();
 
-        Assert.assertEquals(actualStatus, 401);
+        assertEquals(actualStatus, 401);
     }
 }
 
