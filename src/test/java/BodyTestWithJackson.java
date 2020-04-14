@@ -2,6 +2,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.org.apache.xerces.internal.impl.xs.XSAttributeDecl;
 import entities.NotFound;
+import entities.RateLimit;
 import entities.User;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -10,6 +11,8 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
+
+import static org.testng.Assert.assertEquals;
 
 public class BodyTestWithJackson extends BaseClass {
 
@@ -22,7 +25,7 @@ public class BodyTestWithJackson extends BaseClass {
 
         User user = ResponseUtils.unmarshallGeneric(response, User.class);
 
-        Assert.assertEquals( user.getLogin(), "lazarsimonovski");
+        assertEquals( user.getLogin(), "lazarsimonovski");
     }
 
     @Test
@@ -34,7 +37,7 @@ public class BodyTestWithJackson extends BaseClass {
 
         User user = ResponseUtils.unmarshallGeneric(response, User.class);
 
-        Assert.assertEquals( user.getId(), 23380281);
+        assertEquals( user.getId(), 23380281);
     }
 
     @Test
@@ -46,7 +49,20 @@ public class BodyTestWithJackson extends BaseClass {
 
         NotFound notFoundMessage = ResponseUtils.unmarshallGeneric(response, NotFound.class);
 
-        Assert.assertEquals(notFoundMessage.getMessage(), "Not Found");
+        assertEquals(notFoundMessage.getMessage(), "Not Found");
+    }
+
+    @Test
+    public void correctRateLimitsAreSet() throws IOException{
+
+        HttpGet get = new HttpGet(BASE_ENDPOINT + "/rate_limit");
+
+        response = client.execute(get);
+
+        RateLimit rateLimits = ResponseUtils.unmarshallGeneric(response, RateLimit.class);
+
+        assertEquals(rateLimits.getCoreLimit(), 60);
+        //assertEquals(rateLimits.getSearchLimit(), 10);
     }
 
 }
