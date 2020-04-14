@@ -49,24 +49,5 @@ public class Get401 extends BaseClass {
         assertEquals(actualStatus, 401);
     }
 
-    @Test
-    public void userFollowersReturns401() throws IOException {
-        HttpGet get = new HttpGet(BASE_ENDPOINT + "/user/followers" );
-        response = client.execute(get);
-
-        int actualStatus = response.getStatusLine().getStatusCode();
-
-        assertEquals(actualStatus, 401);
-    }
-
-    @Test
-    public void notificationsReturns401() throws IOException {
-        HttpGet get = new HttpGet(BASE_ENDPOINT + "/notifications" );
-        response = client.execute(get);
-
-        int actualStatus = response.getStatusLine().getStatusCode();
-
-        assertEquals(actualStatus, 401);
-    }
 }
 
